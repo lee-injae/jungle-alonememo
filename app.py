@@ -14,9 +14,13 @@ def home():
 
 @app.route("/memo", methods=["POST"])
 def post_article():
-    #1. receive data from client
-    url_receive = request.form["url_give"]
-    comment_receive = request.form["comment_give"]
+    # 1. Receive JSON data from client
+    data = request.json
+    url_receive = data.get("url_give")
+    comment_receive = data.get("comment_give")
+
+    print(url_receive)
+    print(comment_receive)
 
     #2. scrape meta tags
     headers = {
