@@ -8,13 +8,12 @@ app = Flask(__name__)
 client = MongoClient("mongodb+srv://sparta:jungle@cluster0.oxcto9l.mongodb.net/?retryWrites=true&w=majority")
 db = client.db_jungle
 
-## HTML 
 @app.route("/")
 def home():
     return render_template("index.html")
 
 @app.route("/memo", methods=["POST"])
-def post_articles():
+def post_article():
     #1. receive data from client
     url_receive = request.form["url_give"]
     comment_receive = request.form["comment_give"]
@@ -26,13 +25,13 @@ def post_articles():
     data = requests.get(url_receive, headers=headers)
     soup = BeautifulSoup(data.text, "html.parser")
 
-    og_image = soup.select_one("meta[property='og:iamge']")
+    og_image = soup.select_one("meta[property='og:image']")
     og_title = soup.select_one("meta[property='og:title']")
     og_description = soup.select_one("meta[property='og:description']")
 
     url_title = og_title["content"] if og_title else "No title found"
-    url_description = og_description["content"]
-    url_image = og_image["content"]
+    url_description = og_description["content"] if og_description else "no description found"
+    url_image = og_image["content"] if og_image else "default-image-url"
 
     article = {
         "url": url_receive,

@@ -63,10 +63,14 @@
                 headers: {
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify({ url_give: url, comment_give: comment})
+                body: JSON.stringify({ 
+                    url_give: url, 
+                    comment_give: comment
+                })
             })
             .then(res => res.json())
             .then(data => {
+                console.log(data)
                 if (data.result === "success") {
                     alert("포스팅 성공!")
                     showArticles()
@@ -74,9 +78,9 @@
                     alert("서버 오류")
                 }
             })
-            // .catch(error => {
-            //     console.error("Error:", error)
-            // })
+            .catch(error => {
+                console.error("Error:", error)
+            })
         }
 
         function showArticles() {
@@ -84,7 +88,7 @@
             cardsBox.innerHTML = ""
 
             fetch("/memo")
-                .then(res => res.json)
+                .then(res => res.json())
                 .then(data => {
                     let articles = data.articles
                     console.log(articles)
