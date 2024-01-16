@@ -1,12 +1,20 @@
-from flask import Flask, render_template, request, jsonify
-import requests
-from bs4 import BeautifulSoup
+from dotenv import load_dotenv
+load_dotenv()
+
+import os 
+
+mongo_uri = os.getenv('MONGO_URI')
+
 from pymongo import MongoClient
 
-app = Flask(__name__)
-
-client = MongoClient("mongodb+srv://sparta:jungle@cluster0.oxcto9l.mongodb.net/?retryWrites=true&w=majority")
+client = MongoClient(mongo_uri)
 db = client.db_jungle
+
+from bs4 import BeautifulSoup
+from flask import Flask, render_template, request, jsonify
+import requests
+
+app = Flask(__name__)
 
 @app.route("/")
 def home():
