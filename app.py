@@ -64,3 +64,6 @@ def read_articles():
     result = list(db.articles.find({}, {"_id": 0}))
     #2. lay out book info based on articles key values
     return jsonify({"result": "success", "articles": result})
+
+if __name__ == '__main__':  
+   app.run('0.0.0.0', port=5000, debug=True)
