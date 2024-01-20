@@ -107,16 +107,48 @@
         function makeCard(image, url, title, desc, comment) {
             let tempHtml = `
                 <div class="card">
-                    <img class="card-img-top" src=${image} alt="Card image cap" />
+                    <img class="card-img-top" 
+                    src=${image} 
+                    alt="Card image cap" 
+                />
                     <div class="card-body">
-                        <a href="${url}" target="_blank" class="card-title">${title}</a>
+                        <a href="${url}" target="_blank" class="card-title">
+                            ${title}
+                        </a>
                         <p class="card-text">${desc}</p>
                         <p class="card-text comment">${comment}</p>
                     </div>
+                    <footer class="card-footer">
+                        <a href="#" onclick="editArticle('${title}')" 
+                            class="card-footer-item has-text-info"
+                            >
+                            수정
+                        </a>
+                        <a href="#" onclick="deleteArticle('${title}')" 
+                            class="card-footer-item has-text-danger"
+                            >
+                            삭제
+                        </a>
+                    </footer>
                 </div>
             `
             document.getElementById("cards-box").innerHTML += tempHtml
         }
+
+        function editArticle(title){
+            let entry = {comment_give: comment}
+
+            fetch("/memo", {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(entry)
+            })
+            .then(res => res.json())
+            .then(data => console.log(data))
+        }
+        
     </script>
 
 </head>

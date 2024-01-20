@@ -65,5 +65,42 @@ def read_articles():
     #2. lay out book info based on articles key values
     return jsonify({"result": "success", "articles": result})
 
+@app.route("/memo", methods=["PUT"])
+def edit_articles():
+    data = request.json
+    url_receive = data.get("url_give")
+    comment_receive = data.get("comment_give")
+    new_comment = comment_receive
+
+    # article = db.articles.find_one({ 
+    #     "url_receive" : url_receive 
+    # })
+
+    db.articles.update_one(
+        {"url": url_receive},
+        {"$set": {"comment": new_comment}}
+    )
+
+    return jsonify(
+        {"result": "success"},
+        {"msg": "updated successfully"}
+    )
+
+
+# @app.route("/api/books/like", methods=['POST'])
+# def like_book():
+#     data = request.json
+#     title_receive = data.get("title_give")
+#     book = db.books.find_one({"title": title_receive})
+#     new_like = book["like"] + 1
+#     db.books.update_one(
+#         {"title": title_receive}, 
+#         {"$set" : {"like": new_like}}
+#     )    
+#     return jsonify(
+#         {"result": "success", 
+#          "msg": "liked!"}
+#          )
+
 if __name__ == '__main__':  
    app.run('0.0.0.0', port=5000, debug=True)
